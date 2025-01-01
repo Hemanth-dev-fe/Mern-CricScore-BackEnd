@@ -3,6 +3,8 @@ import products1 from "./products info/getting-products-info.js"
 import addproducs from "./products info/getting-products-info.js"
 import userAuth from "./uerAuthentication/userAuth.js"
 import cors from "cors"
+import dotenv from "dotenv"
+dotenv.config()
 const port=process.env.PORT||1800;
 const app=express()
 app.use(cors({
