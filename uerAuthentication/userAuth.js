@@ -29,6 +29,7 @@ const userAuthModel = mongoose.model("userAuthModelInfo", userAuthSchema);
 
 // Register
 router.post("/register", async (req, res) => {
+  console.log("Request body:", req.body); // Log the request body
   const { name, email, password } = req.body;
   const hashedPassword = await bcrypt.hash(password, 10);
   try {

@@ -5,7 +5,7 @@ import userAuth from "./uerAuthentication/userAuth.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-const port = process.env.PORT || 1800;
+const port = process.env.PORT || 1801;
 const app = express();
 
 const allowedOrigins = ['http://localhost:1803', 'https://cute-marigold-5db910.netlify.app'];
