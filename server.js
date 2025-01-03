@@ -5,7 +5,7 @@ import userAuth from "./uerAuthentication/userAuth.js";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-const port = process.env.PORT || 1801;
+const port = process.env.PORT || 3001; // Change to a different port
 const app = express();
 
 const allowedOrigins = ['http://localhost:1803', 'https://cricscore-hemanth.netlify.app'];
