@@ -9,6 +9,7 @@ const port = process.env.PORT || 1801;
 const app = express();
 
 const allowedOrigins = ['http://localhost:1803', 'https://cute-marigold-5db910.netlify.app'];
+
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
@@ -16,8 +17,13 @@ app.use(cors({
     } else {
       callback(new Error('Not allowed by CORS'));
     }
-  }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+// Handle preflight requests
+app.options('*', cors());
 
 app.use(express.json());
 
