@@ -18,7 +18,7 @@ const uri=process.env.MONGODB_URI;
 router.post("/quiz-scoreposting",async(req,res)=>{
     console.log("Request Body:", req.body)
     const{email,score}=req.body;
-    if(!email||!score)
+    if(!email||!score||!username)
     {
         return res.status(400).send("{error: email and score required.}")
     }
@@ -34,7 +34,7 @@ router.post("/quiz-scoreposting",async(req,res)=>{
         res.status(200).send("Quiz score already exists. Only the first attempt is stored.");
     }
     else{
-        const newScore= new QuizModel({userId:userDetails._id,username:userDetails.username,email:userDetails.email,score})
+        const newScore= new QuizModel({userId:userDetails._id,username:userDetails.name,email:userDetails.email,score})
         await newScore.save();
         res.status(200).send("Quiz score saved successfully...");
     }
