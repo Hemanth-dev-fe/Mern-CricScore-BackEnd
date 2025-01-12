@@ -4,11 +4,12 @@ import addproducs from "./products info/getting-products-info.js";
 import userAuth from "./uerAuthentication/userAuth.js";
 import cors from "cors";
 import dotenv from "dotenv";
+import quiz from "./quiz-game/quizgame.js";
 dotenv.config();
 const port = process.env.PORT || 1801;
 const app = express();
 
-const allowedOrigins = ['http://localhost:1803', 'https://cute-marigold-5db910.netlify.app'];
+const allowedOrigins = ['http://localhost:1803/', 'https://cute-marigold-5db910.netlify.app'];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -39,5 +40,6 @@ app.get("/", (req, res) => {
 app.use("/products", products1);
 app.use("/addproducts", addproducs);
 app.use("/auth", userAuth);
+app.use("/quiz", quiz);
 
 app.listen(port, () => console.log("server running on port", port));
