@@ -17,7 +17,7 @@ const uri=process.env.MONGODB_URI;
 
 router.post("/quiz-scoreposting",async(req,res)=>{
     console.log("Request Body:", req.body)
-    const{email,score}=req.body;
+    const{email,score,username}=req.body;
     if(!email||!score||!username)
     {
         return res.status(400).send("{error: email and score required.}")
