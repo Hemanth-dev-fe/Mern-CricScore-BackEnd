@@ -9,7 +9,7 @@ dotenv.config();
 const port = process.env.PORT || 1801;
 const app = express();
 
-const allowedOrigins = ['http://localhost:1803/', 'https://cute-marigold-5db910.netlify.app'];
+const allowedOrigins = ['http://localhost:1803/', 'https://cute-marigold-5db910.netlify.app','https://cricscoredev.netlify.app'];
 
 app.use(cors({
   origin: function (origin, callback) {
