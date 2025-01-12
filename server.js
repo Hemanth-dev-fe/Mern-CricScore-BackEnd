@@ -9,7 +9,7 @@ dotenv.config();
 const port = process.env.PORT || 1801;
 const app = express();
 
-const allowedOrigins = ['http://localhost:1803/','https://cricscoredev.netlify.app/'];
+const allowedOrigins = ['http://localhost:1803/', 'https://cricscoredev.netlify.app/'];
 
 app.use(cors({
   origin: function (origin, callback) {
@@ -24,12 +24,7 @@ app.use(cors({
 }));
 
 // Handle preflight requests
-app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', req.headers.origin);
-  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.send();
-});
+app.options('*', cors());
 
 app.use(express.json());
 

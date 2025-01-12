@@ -7,12 +7,14 @@ const router=express.Router();
 
 //connecting mongoDB
 
-const connectDB = (DBNAME) => {
-    const uri = `${process.env.MONGODB_URI}${DBNAME}${process.env.MONGODB_OPTIONS}`;
-    mongoose.connect(uri).then(() => console.log("DB connected"))
-        .catch((err) => console.log("DB connection error:", err));
-};
-connectDB("CricScore");
+
+const uri=process.env.MONGODB_URI;
+    mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 50000, // Adjust the timeout as needed
+        socketTimeoutMS: 50000, // Adjust the timeout as needed
+    }).then(() => console.log("DB connected"))
+      .catch((err) => console.log("DB connection error:", err));
+
 router.post("/quiz-scoreposting",async(req,res)=>{
     console.log("Request Body:", req.body)
     const{email,score}=req.body;
