@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 // User schema and model
 const userAuthSchema = new mongoose.Schema({
     name: { type: String },
-    email: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true,index: true },
     password: { type: String, required: true }
 });
 
@@ -35,7 +35,7 @@ function getISTDateTimeString() {
   console.log(getISTDateTimeString())
 const QuizAuthenticationSchema=new mongoose.Schema(
     {
-        userId:{type:mongoose.Schema.Types.ObjectId,ref:"userAuthentication",required:true},
+        userId:{type:mongoose.Schema.Types.ObjectId,ref:"userAuthentication",required:true,index: true},
         name:{type:String,required:true},
         email:{type:String,required:true},
         score:{type:Number,required:true},

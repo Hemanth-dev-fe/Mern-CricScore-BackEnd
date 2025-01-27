@@ -10,8 +10,8 @@ const router=express.Router();
 
 const uri=process.env.MONGODB_URI;
     mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 50000, // Adjust the timeout as needed
-        socketTimeoutMS: 50000, // Adjust the timeout as needed
+        serverSelectionTimeoutMS: 20000, // Adjust the timeout as needed
+        socketTimeoutMS: 20000, // Adjust the timeout as needed
     }).then(() => console.log("DB connected"))
       .catch((err) => console.log("DB connection error:", err));
 
