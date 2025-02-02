@@ -17,17 +17,57 @@ const uri=process.env.MONGODB_URI;
 
 
 // Register
+console.time("register-time");
+
 router.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     try {
+        console.time("hashing-time");
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.timeEnd("hashing-time");
+
+        console.time("check-email-time");
+        const existingUser = await userAuthModel.findOne({ email });
+        console.timeEnd("check-email-time");
+
+        if (existingUser) {
+            return res.status(400).send("Email already in use");
+        }
+
+        console.time("save-user-time");
         const userData = new userAuthModel({ name, email, password: hashedPassword });
         await userData.save();
+        console.timeEnd("save-user-time");
+
         res.status(200).send("User registered...");
     } catch (err) {
         res.status(400).send({ error: "Register error", details: err.message });
+        console.log(err);
     }
+
+    console.timeEnd("register-time");
 });
+
+// checking exiting email from user
+
+router.get("/check-email",async(req,res)=>{
+    const {email}=req.query;
+    try{
+        const userEmail=await userAuthModel.findOne({email})
+    if(userEmail)
+    {
+        res.status(200).json({exist:true})
+    }
+    else{
+        res.status(200).json({exist:false})
+    }
+    }
+    catch(error)
+    {
+        console.error("Error checking email:", error);
+       res.status(500).json({ message: "Internal server error" });
+    }
+})
 
 // Login
 router.post("/login", async (req, res) => {
@@ -38,7 +78,10 @@ router.post("/login", async (req, res) => {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
                 const token = jwt.sign({ email: user.email }, process.env.JWT_SECRET,{ expiresIn: '1h' });
-                res.json({ token });
+                res.json({ token,
+                    name: user.name,
+                    email: user.email
+                 });
             } else {
                 res.status(400).send("Invalid credentials");
             }

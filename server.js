@@ -5,6 +5,9 @@ import userAuth from "./uerAuthentication/userAuth.js";
 import cors from "cors";
 import dotenv from "dotenv";
 import quiz from "./quiz-game/quizgame.js";
+import compression from "compression";
+
+
 dotenv.config();
 const port = process.env.PORT || 1801;
 const app = express();
@@ -16,7 +19,7 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
-
+app.use(compression()); // Enable gzip compression for all responses
 // Handle preflight requests
 app.options('*', cors());
 
