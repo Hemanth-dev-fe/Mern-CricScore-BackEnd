@@ -23,7 +23,7 @@ router.post("/register", async (req, res) => {
     const { name, email, password } = req.body;
     try {
         console.time("hashing-time");
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password, 8);
         console.timeEnd("hashing-time");
 
         console.time("check-email-time");
@@ -74,6 +74,7 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await userAuthModel.findOne({ email });
+        user.explain("executionStats");
         if (user) {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
@@ -82,6 +83,7 @@ router.post("/login", async (req, res) => {
                     name: user.name,
                     email: user.email
                  });
+                 
             } else {
                 res.status(400).send("Invalid credentials");
             }
@@ -93,5 +95,26 @@ router.post("/login", async (req, res) => {
     }
 });
 
+//creating the middleware for token verification
 
+/* const AuthenticationToken=(req,res,next)=>{
+    const token=req.headers['authorization']?.split(' ')[1]
+    if(!token)
+    {
+        return res.sendStatus(401)
+    }
+    jwt.verify(token,process.env.JWT_SECRET,(err,user)=>{
+        if(err)
+        {
+            return res.sendStatus(403);
+        }
+        req.email=user;
+        next()
+    })
+
+}
+router.get("/protected",AuthenticationToken,(req,res)=>{
+    res.json({ message: 'This is protected data.', user: req.email });
+})
+ */
 export default router;

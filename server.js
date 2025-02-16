@@ -28,6 +28,13 @@ app.use(cors({
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
+
+/* why we are using origin method when multiple origins are there
+
+origin function is working on the against allowedorigin and here call back is represent 
+the whether it allow the deny the request it is default when we are using in cors. 
+callback having 2 parameters one error another one is Boolean whether it is true or false. */
 app.use(compression()); // Enable gzip compression for all responses
 // Handle preflight requests
 app.options('*', cors());

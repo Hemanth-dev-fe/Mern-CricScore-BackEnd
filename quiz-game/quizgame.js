@@ -17,11 +17,13 @@ const uri=process.env.MONGODB_URI;
 
       router.post("/quiz/quiz-scoreposting", async (req, res) => {
         const { email, score, name } = req.body; // Change username to name
+        console.log("Request body received:", req.body);
         if (!email || !score || !name) { // Change username to name
             return res.status(400).json({ error: "Email, score, and name are required." });
         }
         try {
             const userDetails = await userAuthModel.findOne({ email });
+            console.log(userDetails)
             if (!userDetails) {
                 return res.status(400).json({ error: "Email not found." });
             }
@@ -40,9 +42,19 @@ const uri=process.env.MONGODB_URI;
 
 router.get("/quiz-getData",async(req,res)=>{
     try{
-        const quizdata=await QuizModel.find({})
-        console.log('Fetched quiz data:', quizdata); // Log the fetched data
-      res.status(200).send(quizdata);
+        const page=parseInt(req.query.page)||1;
+        const limit=parseInt(req.query.limit)||5;
+        //skipping the data
+
+        const skip=(page-1)*limit
+        const totaldocuments=await QuizModel.countDocuments()
+        const quizdata=await QuizModel.find().skip(skip).limit(limit)
+        // console.log('Fetched quiz data:', quizdata); // Log the fetched data
+      res.status(200).json({
+        quizdata:quizdata,
+        currentPage:page,
+        totalPages:Math.ceil(totaldocuments/limit)
+      });
 
     }
     catch (err) {
