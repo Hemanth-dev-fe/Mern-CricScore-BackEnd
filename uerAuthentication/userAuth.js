@@ -50,7 +50,7 @@ router.post("/register", async (req, res) => {
 
 // checking exiting email from user
 
-router.get("/check-email",async(req,res)=>{
+/* router.get("/check-email",async(req,res)=>{
     const {email}=req.query;
     try{
         const userEmail=await userAuthModel.findOne({email})
@@ -67,14 +67,14 @@ router.get("/check-email",async(req,res)=>{
         console.error("Error checking email:", error);
        res.status(500).json({ message: "Internal server error" });
     }
-})
+}) */
 
 // Login
 router.post("/login", async (req, res) => {
     const { email, password } = req.body;
     try {
         const user = await userAuthModel.findOne({ email });
-        user.explain("executionStats");
+       
         if (user) {
             const isMatch = await bcrypt.compare(password, user.password);
             if (isMatch) {
